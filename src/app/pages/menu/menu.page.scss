@@ -1,0 +1,94 @@
+
+ion-label:hover
+{
+    cursor: pointer;
+}
+
+.content
+{
+  display: flex;
+  height: 100%;
+}
+.display
+{
+  display: none ;
+}
+.flex_edit
+{
+  display: flex;
+  flex-direction: column;
+}
+.mg{
+  margin-bottom: 20px;
+}
+select
+{
+  width: 100px;
+}
+ion-header {
+  border-left: 1px solid #000;
+}
+.modal
+{
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex_btn
+{
+  display: flex;
+  justify-content: space-around;
+}
+.flex_item {
+  display: flex;
+  align-items: center;
+}
+.mg{
+  margin-bottom: 20px;
+}
+select
+{
+  width: 100px;
+}
+.modal_add
+{
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  background-color: rgba(0,0,0,1);
+  z-index: 1000;
+}
+.list_menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.content_product {
+  border-left: 1px solid #000;
+}
+.text_product {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis ;
+}
+.item_product
+{
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  height: 100px;
+}
+.item_ava {
+  width: 120px;
+}
+

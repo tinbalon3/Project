@@ -1,0 +1,227 @@
+
+<div class="content" [class.display]="checked">
+<div [style.width.%]="30" [style.height.%]="100">
+<ion-header>
+  <div class="flex">
+    <ion-card-header>
+      Danh mục
+    </ion-card-header>
+      <ion-button color="success" (click)="openModalMenu()">
+        <ion-icon name="add-circle-outline" ></ion-icon>
+        Thêm danh mục
+      </ion-button>
+  </div>
+</ion-header>
+<ion-content >
+  <ion-list lines="full" class="list_menu" >
+    <ng-container *ngFor="let item of listMenu">
+      <ion-item (click)="settype(item.type)" class="flex">
+        <ion-label>
+          {{item.name}}
+        </ion-label>
+      </ion-item>
+
+    </ng-container>
+
+  </ion-list>
+</ion-content>
+</div>
+<div [style.width.%]="100" >
+  <ion-header color="success">
+    <div class="flex">
+      <ion-card-header>
+        {{name}}
+      </ion-card-header>
+      <ion-button color="success" (click)="openModalProduct()" >
+        <ion-icon name="add-circle-outline" ></ion-icon>
+        Thêm sản phẩm
+      </ion-button>
+    </div>
+  </ion-header>
+
+
+    <ng-template [ngIf]="exist === true">
+      <ion-content class="content_product">
+      <ion-card *ngFor="let item of product;index as i">
+          <div class="flex_item">
+            <ion-thumbnail slot="start" class="item_product">
+              <img alt="Silhouette of mountains" class="item_ava" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+            </ion-thumbnail>
+          <ion-item class="item_product">{{item.name}}</ion-item>
+          <ion-item class="item_product">Giá sản phẩm : {{item.price}}</ion-item>
+          <ion-item class="item_product">Số lượng: {{item.qty}}</ion-item>
+          <ion-item class="text_product item_product">Mô tả: {{item.des}}</ion-item>
+          <ion-button class="item_product" color="danger" fill="clear" (click)="openModalDelete(i)">
+            <ion-icon slot="start" name="trash-outline"></ion-icon>
+            Xóa
+          </ion-button>
+          <ion-button fill="clear"  class="item_product" (click)="setDataEdit(item,i)">
+            <ion-icon slot="start" name="ellipsis-horizontal-circle-outline"></ion-icon>
+            Sửa
+          </ion-button>
+        </div>
+        </ion-card>
+      </ion-content>
+      </ng-template>
+    <ng-template [ngIf]="exist === false">
+      <ion-content class="content_product">
+        <div class="flex_btn" [style.margin-top.px]="50" >
+          Danh mục hiện tại chưa có sản phẩm
+        </div>
+      </ion-content>
+    </ng-template>
+</div>
+</div>
+<ng-template [ngIf]="checked">
+  <div class="flex">
+    <ion-card-header>
+      Sửa sản phẩm
+    </ion-card-header>
+    <ion-card-header (click)="checked = false">
+      Trở về
+    </ion-card-header>
+  </div>
+    <ion-content class="flex_edit">
+      <ion-item>
+        <ion-label position="floating" class="mg">Sửa file ảnh</ion-label>
+        <ion-input type="file"></ion-input>
+      </ion-item>
+        <ion-item>
+          <ion-label position="floating">Tên sản phẩm</ion-label>
+          <ion-input [(ngModel)]="product_edit.name"  type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label class="mg" position="floating">Loại sản phẩm</ion-label>
+          <select [(ngModel)]="product_edit.type">
+            <option *ngFor="let type of listMenu | slice: 1" [value]="type.type">
+              {{type.name}}
+            </option>
+        </select>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Giá</ion-label>
+          <ion-input [(ngModel)]="product_edit.price" type="tel"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Số lượng</ion-label>
+          <ion-input [(ngModel)]="product_edit.qty" type="tel"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Mô tả</ion-label>
+          <ion-textarea [(ngModel)]="product_edit.des"></ion-textarea>
+        </ion-item>
+
+      <ion-button  size="full" (click)="EditProduct()" expand="block" color="success">
+        Sửa
+       </ion-button>
+    </ion-content>
+  </ng-template>
+
+<ng-template [ngIf]="delete">
+  <div class="modal">
+    <div class="modal_delete">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title> Bạn chắc rằng muốn xóa sản phẩm này ?</ion-card-title>
+        </ion-card-header>
+
+        <div class="flex_btn">
+          <ion-button fill="clear" (click)="deleteItem()" size="default">Có</ion-button>
+          <ion-button fill="clear" (click)="close()" size="default">Không</ion-button>
+        </div>
+
+      </ion-card>
+    </div>
+  </div>
+</ng-template>
+<ng-template [ngIf]="modal">
+<div class="modal_add">
+<ng-template [ngIf]="isAdd">
+    <div class="flex">
+      <ion-card-header class="text-header" color="success">
+        Thêm sản phẩm
+      </ion-card-header >
+      <ion-card-header class="text-header" (click)="closeModalProduct()">
+        Trở về
+      </ion-card-header>
+    </div>
+
+      <ion-content>
+        <ion-list>
+          <ion-item>
+            <ion-label>Chọn file ảnh</ion-label>
+            <ion-input placeholder="Chọn ảnh" type="file"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Tên sản phẩm</ion-label>
+            <ion-input [(ngModel)]="product_add.name" type="text"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label class="mg" position="floating">Loại sản phẩm</ion-label>
+            <select [(ngModel)]="product_add.type">
+              <option *ngFor="let type of product_list | slice: 1" [value]="type.type">
+                {{type.name}}
+              </option>
+          </select>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Giá</ion-label>
+            <ion-input [(ngModel)]="product_add.price" type="tel"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Số lượng</ion-label>
+            <ion-input [(ngModel)]="product_add.qty" type="tel"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Mô tả</ion-label>
+            <ion-textarea [(ngModel)]="product_add.des"></ion-textarea>
+          </ion-item>
+        </ion-list>
+
+
+        <ion-button (click)="addProduct()" size="full" expand="block" color="success">
+          Thêm
+         </ion-button>
+      </ion-content>
+</ng-template>
+  <ng-template [ngIf]="isMenu">
+      <div class="flex">
+        <ion-card-header>
+        Thêm danh mục
+        </ion-card-header>
+        <ion-card-header (click)="closeModalMenu()">
+          Trở về
+        </ion-card-header>
+      </div>
+
+        <ion-content>
+          <ion-list>
+
+            <ion-item>
+              <ion-label position="floating">Tên danh mục</ion-label>
+              <ion-textarea [(ngModel)]="menu.name"></ion-textarea>
+            </ion-item>
+
+            <ion-item>
+              <ion-label class="mg" position="floating">Loại danh mục</ion-label>
+             <ion-input [(ngModel)]="menu.type"></ion-input>
+            </ion-item>
+          </ion-list>
+
+
+          <ion-button (click)="addMenu()" size="full" expand="block" color="success">
+            Thêm
+           </ion-button>
+        </ion-content>
+
+  </ng-template>
+</div>
+</ng-template>
+
