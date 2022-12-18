@@ -24,7 +24,8 @@ export class MenuPage implements OnInit {
     name : '',
     price: '',
     qty: '',
-    des: ''
+    des: '',
+    file:''
   }
 
   product_add : any = {
@@ -32,13 +33,13 @@ export class MenuPage implements OnInit {
     des: '',
     qty: '',
     price: '',
-    type: ''
+    type: '',
+    file:''
   }
   menu : any = {
     name:'',
     type:''
   }
-
 
 
   constructor(private productService: ProductService) {
@@ -52,7 +53,6 @@ export class MenuPage implements OnInit {
    this.productService.getMenu().subscribe((menu:any) => {this.listMenu = menu;})
     this.productService.getItem().subscribe((item:any) => {this.product = item;this.getallID();})
     this.productService.getMenu().subscribe((item:any) => {this.product_list = item;})
-    console.log(this.exist)
   }
   //Lấy tất cả id của sản phẩm lưu vào biến local
   getallID()
@@ -68,6 +68,11 @@ export class MenuPage implements OnInit {
       this.getallID();
       })
   }
+  pushDataMenu() {
+    this.productService.getMenu().subscribe((item:any) => {
+      this.listMenu = item;
+      })
+  }
 //hiển thị sản phẩm theo type
  settype(type:string)
   {
@@ -75,6 +80,7 @@ export class MenuPage implements OnInit {
     {
       this.name = type;
       this.pushDataProduct();
+      this.exist = true;
     }
     else
     {
@@ -86,27 +92,34 @@ export class MenuPage implements OnInit {
         {
           this.product.push(i);
         }
-        console.log(this.product);
         if(this.product.length == 0)
           this.exist = false;
         else if(this.product.length !=0)
           this.exist = true;
         this.getallID();
 
-        console.log(this.exist + "123")
-
-
     })
     }
 
 
   }
-  //delete
+  //delete item
   deleteItem()
   {
       this.productService.deleteItem(this.allId[this.index_delete]);
       this.pushDataProduct()
       this.close();
+  }
+  //delete menu
+  deleteMenu(item:any)
+  {
+    this.product.forEach(product => {
+      if(product.type == item.type)
+      {
+        this.productService.deleteItem(product.id);
+      }
+    })
+      this.productService.deleteMenu(item.id);
   }
   //bật mở modal delete
   close()
@@ -128,14 +141,19 @@ export class MenuPage implements OnInit {
 
   EditProduct()
   {
+    this.product_edit.price = parseFloat(this.product_edit.price);
+    this.product_edit.qty = parseFloat(this.product_edit.qty);
     this.productService.EditItem(this.product_edit,this.allId[this.index]);
     alert("Sửa thành công");
-    this.checked = !this.checked;
-  }
 
+  }
   //add
   addProduct()
   {
+    //Vì em chưa xử lý up ảnh lên được nên em gán thẳng cho nó 1 bức ảnh up lên firebase
+    this.product_add.file = 'https://ionicframework.com/docs/img/demos/thumbnail.svg';
+    this.product_add.price = parseFloat(this.product_add.price);
+    this.product_add.qty = parseFloat(this.product_add.qty);
     this.productService.addProduct(this.product_add);
     alert("Thêm thành công");
     this.resetData();
@@ -175,8 +193,6 @@ export class MenuPage implements OnInit {
   {
     this.modal = true;
     this.isMenu = true;
-    console.log(this.modal+''+this.isMenu)
-    // this.isAdd = !this.isAdd;
   }
   closeModalProduct()
   {
@@ -188,7 +204,5 @@ export class MenuPage implements OnInit {
   {
     this.modal = true;
     this.isAdd = true;
-    console.log(this.modal+''+this.isAdd)
-    // this.isMenu = !this.isMenu;
   }
 }

@@ -34,7 +34,8 @@ type: '',
 name : '',
 des: '',
 qty: '',
-price: ''
+price: '',
+file:'',
 }
 
 addProduct(data : any)
@@ -48,6 +49,10 @@ addMenuList(data:any)
 deleteItem(id:string)
 {
   this.ItemCollectiom.doc(id).delete();
+}
+deleteMenu(id:string)
+{
+  this.MenuCollectiom.doc(id).delete();
 }
 getItem() {
   return this.Item;

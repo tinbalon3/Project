@@ -15,10 +15,14 @@
 <ion-content >
   <ion-list lines="full" class="list_menu" >
     <ng-container *ngFor="let item of listMenu">
-      <ion-item (click)="settype(item.type)" class="flex">
+      <ion-item (click)="settype(item.type)" class="flex menu_item" [style.width.%]="100">
         <ion-label>
           {{item.name}}
         </ion-label>
+        <ion-button class="btn_delete" (click)="deleteMenu(item)">
+          <ion-icon slot="start" name="trash-outline"></ion-icon>
+          Xóa
+        </ion-button>
       </ion-item>
 
     </ng-container>
@@ -28,7 +32,7 @@
 </div>
 <div [style.width.%]="100" >
   <ion-header color="success">
-    <div class="flex">
+    <div class="flex" >
       <ion-card-header>
         {{name}}
       </ion-card-header>
@@ -45,7 +49,7 @@
       <ion-card *ngFor="let item of product;index as i">
           <div class="flex_item">
             <ion-thumbnail slot="start" class="item_product">
-              <img alt="Silhouette of mountains" class="item_ava" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+              <img alt="Silhouette of mountains" class="item_ava" src="{{item.file}}" />
             </ion-thumbnail>
           <ion-item class="item_product">{{item.name}}</ion-item>
           <ion-item class="item_product">Giá sản phẩm : {{item.price}}</ion-item>
@@ -84,7 +88,7 @@
     <ion-content class="flex_edit">
       <ion-item>
         <ion-label position="floating" class="mg">Sửa file ảnh</ion-label>
-        <ion-input type="file"></ion-input>
+        <ion-input type="file" [(ngModel)]="product_edit.file" ></ion-input>
       </ion-item>
         <ion-item>
           <ion-label position="floating">Tên sản phẩm</ion-label>
@@ -152,7 +156,7 @@
         <ion-list>
           <ion-item>
             <ion-label>Chọn file ảnh</ion-label>
-            <ion-input placeholder="Chọn ảnh" type="file"></ion-input>
+            <ion-input placeholder="Chọn ảnh" [(ngModel)]="product_add.file" type="file"></ion-input>
           </ion-item>
 
           <ion-item>

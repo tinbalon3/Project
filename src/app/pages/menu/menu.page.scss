@@ -91,4 +91,18 @@ select
 .item_ava {
   width: 120px;
 }
-
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+ion-card-header {
+  cursor: pointer;
+}
+.btn_delete
+{
+  display: none;
+}
+.menu_item:hover .btn_delete
+{
+  display: block;
+}
